@@ -7,7 +7,7 @@ function Navbar({ toggleDarkMode, darkMode }) {
       </Link>
       <div className="toggle-container">
         <button className="toggle-btn" onClick={toggleDarkMode}>
-          {darkMode ? 'Switch to Normal Mode' : 'Switch to Dark Mode'}
+          {darkMode ? 'Switch to White Mode' : 'Switch to Dark Mode'}
         </button>
       </div>
     </nav>

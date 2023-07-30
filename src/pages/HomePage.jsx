@@ -26,18 +26,19 @@ function HomePage() {
   }, [])
 
   const handleSort = () => {
-    const sortedCountries = [...countriesData].sort((a, b) =>
+    const sortedCountries =
       sortOrder === 'asc'
-        ? a.name.official.localeCompare(b.name.official)
-        : b.name.official.localeCompare(a.name.official)
-    );
+        ? [...countriesData].sort((a, b) => b.name.official.localeCompare(a.name.official))
+        : [...countriesData].sort((a, b) => a.name.official.localeCompare(b.name.official));
+
     setCountriesData(sortedCountries);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
   return (
     <div>
       <h1 className="home-tittle">WikiCountries: Your Guide to the World</h1>
-      <button className='sort-button' onClick={handleSort}>Sort by {sortOrder === 'asc' ? 'Name' : 'Reverse'}</button>
+      <button className='sort-button' onClick={handleSort}>  {sortOrder === 'asc' ? 'Sort by Reverse Name' : 'Sort by Name'}
+      </button>
 
       <div className="country-list">
         <ul>
