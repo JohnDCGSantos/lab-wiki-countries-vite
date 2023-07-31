@@ -6,6 +6,7 @@ import '../CountryDetailsPage.css'
 function CountryDetailsPage() {
   const [countryDetails, setCountryDetails] = useState(null)
   const { alpha3Code } = useParams()
+  const [borderCountries, setBorderCountries] = useState([]); 
 
   useEffect(() => {
     const fetchCountryDetails = async () => {
@@ -14,6 +15,7 @@ function CountryDetailsPage() {
           `https://ih-countries-api.herokuapp.com/countries/${alpha3Code}`
         )
         setCountryDetails(response.data)
+        fetchBorderCountries(response.data.borders); 
       } catch (error) {
         console.error('Error fetching country details:', error)
       }
@@ -21,6 +23,22 @@ function CountryDetailsPage() {
 
     fetchCountryDetails()
   }, [alpha3Code])
+
+  const fetchBorderCountries = async (borderCodes) => {
+    try {
+      const borderPromises = borderCodes.map(async (borderCode) => {
+        const response = await axios.get(
+          `https://ih-countries-api.herokuapp.com/countries/${borderCode}`
+        );
+        return response.data;
+      });
+
+      const borderCountriesData = await Promise.all(borderPromises);
+      setBorderCountries(borderCountriesData);
+    } catch (error) {
+      console.error('Error fetching bordering country details:', error);
+    }
+  };
 
   if (!countryDetails) {
     return <div>Loading...</div>
@@ -42,9 +60,11 @@ function CountryDetailsPage() {
         <div className="country-borders">
         <h2>Bordering Countries:</h2>
           <ul>
-            {countryDetails.borders.map((border) => (
-              <li key={border}>
-                <Link to={`/countryDetails/${border}`}>{border}</Link>
+          {borderCountries.map((borderCountry) => (
+              <li key={borderCountry.alpha3Code}>
+                <Link to={`/countryDetails/${borderCountry.alpha3Code}`}>
+                  {borderCountry.name.common}
+                </Link>
               </li>
             ))}
           </ul>
