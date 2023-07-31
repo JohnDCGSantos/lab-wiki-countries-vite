@@ -109,3 +109,10 @@
   .dark-mode h1{
     color: #f5f5f5;
   }
+
+  .dark-mode .country-borders a {
+    color: #fff; 
+  }
+  .dark-mode .country-borders h2 {
+    color: #fff; 
+  }
